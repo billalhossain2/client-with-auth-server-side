@@ -97,6 +97,20 @@ async function run() {
         }
     })
 
+    //Delete a job with id
+    app.delete("/deleteJob/:jobId", async(req, res)=>{
+      try {
+        const {jobId} = req.params;
+
+        const query = {_id:new ObjectId(jobId)};
+
+        const result = await postedJobsCollection.deleteOne(query);
+        res.status(200).send({success:true, message:"Delete Job Was Successful"});
+        } catch (error) {
+          res.status(500).json({error:true, messagge:"There was server side error"})
+        }
+    })
+
 
   } finally {
     // Ensures that the client will close when you finish/error
