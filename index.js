@@ -8,7 +8,10 @@ const app = express();
 const port = process.env.PORT || 9000;
 
 //Middlewares
-app.use(cors());
+app.use(cors({
+  origin:["http://localhost:5173"],
+  credentials:true
+}));
 app.use(express.json());
 app.use(cookieParser());
 dotenv.config();
@@ -41,10 +44,20 @@ async function run() {
 
     // collections 
     const bidsCollection = client.db('jboFusionDB').collection('bids')
+    const postedJobsCollection = client.db('jboFusionDB').collection('postedJobs')
+
+    app.get("/category-jobs", async(req, res)=>{
+      try {
+      const result = await postedJobsCollection.find().toArray();
+      res.status(200).send(result);
+      } catch (error) {
+        res.status(500).json({error:true, messagge:"There was server side error"})
+      }
+    })
 
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    // await client.close();
   }
 }
 run().catch(console.dir);
