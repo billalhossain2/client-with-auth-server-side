@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const dotenv = require("dotenv");
 
 const app = express();
@@ -46,6 +46,7 @@ async function run() {
     const bidsCollection = client.db('jboFusionDB').collection('bids')
     const postedJobsCollection = client.db('jboFusionDB').collection('postedJobs')
 
+    //get all category jobs
     app.get("/category-jobs", async(req, res)=>{
       try {
       const result = await postedJobsCollection.find().toArray();
@@ -54,6 +55,48 @@ async function run() {
         res.status(500).json({error:true, messagge:"There was server side error"})
       }
     })
+
+    //get single job by id
+    app.get("/category-jobs/:jobId", async(req, res)=>{
+      try {
+      const {jobId} = req.params;
+      const query = {_id:new ObjectId(jobId)};
+
+      const result = await postedJobsCollection.find(query).toArray();
+      res.status(200).send(result);
+      } catch (error) {
+        res.status(500).json({error:true, messagge:"There was server side error"})
+      }
+    })
+
+    //Add a new job
+    app.post("/addJob", async(req, res)=>{
+      try {
+        const newJob = req.body;
+        const result = await postedJobsCollection.insertOne(newJob);
+        res.status(200).send({success:true, message:"Adde a new job successfully"});
+        } catch (error) {
+          res.status(500).json({error:true, messagge:"There was server side error"})
+        }
+    })
+
+    //Update a job with id
+    app.put("/updateJob/:jobId", async(req, res)=>{
+      try {
+        const {jobId} = req.params;
+        const updateJob = {
+          $set:req.body
+        }
+        const options = {upsert:true};
+        const filter = {_id:new ObjectId(jobId)};
+
+        const result = await postedJobsCollection.updateOne(filter, updateJob, options);
+        res.status(200).send({success:true, message:"Update Job Was Successful"});
+        } catch (error) {
+          res.status(500).json({error:true, messagge:"There was server side error"})
+        }
+    })
+
 
   } finally {
     // Ensures that the client will close when you finish/error
