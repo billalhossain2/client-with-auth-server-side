@@ -111,6 +111,19 @@ async function run() {
         }
     })
 
+    //get single job by email
+    app.get("/getJobByEmail/:email", async(req, res)=>{
+      try {
+      const {email} = req.params;
+      const query = {email};
+
+      const result = await postedJobsCollection.find(query).toArray();
+      res.status(200).send(result);
+      } catch (error) {
+        res.status(500).json({error:true, messagge:"There was server side error"})
+      }
+    })
+
 
   } finally {
     // Ensures that the client will close when you finish/error
