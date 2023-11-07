@@ -91,6 +91,20 @@ async function run() {
         }
     })
 
+    //get all bids  by user email
+    app.get("/bids/:email", async(req, res)=>{
+      try {
+      const {email} = req.params;
+      console.log(email)
+      const query = {bidderEmail:email};
+
+      const result = await bidsCollection.find(query).toArray();
+      res.status(200).send(result);
+      } catch (error) {
+        res.status(500).json({error:true, messagge:"There was server side error"})
+      }
+    })
+
     //Update a job with id
     app.put("/updateJob/:jobId", async(req, res)=>{
       try {
