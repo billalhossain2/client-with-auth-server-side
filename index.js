@@ -80,6 +80,17 @@ async function run() {
         }
     })
 
+    //Add a new bid
+    app.post("/addBid", async(req, res)=>{
+      try {
+        const newBid = req.body;
+        const result = await bidsCollection.insertOne(newBid);
+        res.status(200).send({success:true, message:"Added a new bid successfully"});
+        } catch (error) {
+          res.status(500).json({error:true, messagge:"There was server side error"})
+        }
+    })
+
     //Update a job with id
     app.put("/updateJob/:jobId", async(req, res)=>{
       try {
@@ -112,7 +123,7 @@ async function run() {
     })
 
     //get single job by email
-    app.get("/getJobByEmail/:email", async(req, res)=>{
+    app.get("/getJobsByEmail/:email", async(req, res)=>{
       try {
       const {email} = req.params;
       const query = {email};
