@@ -117,6 +117,8 @@ async function run() {
       }
     })
 
+
+
     //Update a job with id
     app.put("/updateJob/:jobId", async(req, res)=>{
       try {
@@ -129,6 +131,23 @@ async function run() {
 
         const result = await postedJobsCollection.updateOne(filter, updateJob, options);
         res.status(200).send({success:true, message:"Update Job Was Successful"});
+        } catch (error) {
+          res.status(500).json({error:true, messagge:"There was server side error"})
+        }
+    })
+
+    //Update bid status
+    app.patch("/bidStatus/:bidId", async(req, res)=>{
+      try {
+        const {bidId} = req.params;
+        const updateJob = {
+          $set:req.body
+        }
+        const options = {upsert:false};
+        const filter = {_id:new ObjectId(bidId)};
+
+        const result = await bidsCollection.updateOne(filter, updateJob, options);
+        res.status(200).send({success:true, message:"Status was changed successful"});
         } catch (error) {
           res.status(500).json({error:true, messagge:"There was server side error"})
         }
