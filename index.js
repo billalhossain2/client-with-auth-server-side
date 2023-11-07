@@ -95,8 +95,20 @@ async function run() {
     app.get("/bids/:email", async(req, res)=>{
       try {
       const {email} = req.params;
-      console.log(email)
       const query = {bidderEmail:email};
+
+      const result = await bidsCollection.find(query).toArray();
+      res.status(200).send(result);
+      } catch (error) {
+        res.status(500).json({error:true, messagge:"There was server side error"})
+      }
+    })
+
+    //get all bids  by user email
+    app.get("/bidRequests/:buyerEmail", async(req, res)=>{
+      try {
+      const {buyerEmail} = req.params;
+      const query = {buyerEmail};
 
       const result = await bidsCollection.find(query).toArray();
       res.status(200).send(result);
