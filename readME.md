@@ -29,12 +29,13 @@ The JobFusion API offers a range of features to facilitate job and bid managemen
 
 To get started with the JobFusion API, follow these steps:
 1. Clone the repository to your local machine:
-git clone <repository-url>
+* git clone https://github.com/Porgramming-Hero-web-course/b8a11-server-side-billal-webdev.git
 2. Install the required dependencies:
-npm install
+* npm install
 3. Configure environment variables using the .env file to ensure the secure operation of your API.
 4. Start the server:
-npm start
+* npm start
+
 Your server will be up and running, accessible through your chosen domain, in this case, __https://job-fusion-server.vercel.app.__
 
 ## API Endpoints
