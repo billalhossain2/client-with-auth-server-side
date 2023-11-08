@@ -4,7 +4,7 @@ The JobFusion API is a versatile backend service for the JobFusion website, desi
 
 ## Table of Contents
 
-<span style="color:blue">
+
 * Features
 * Getting Started
 * API Endpoints
@@ -14,7 +14,7 @@ The JobFusion API is a versatile backend service for the JobFusion website, desi
 * Documentation
 * License
 * Contact
-</span>
+
 
 ## Features
 
@@ -78,8 +78,8 @@ To ensure the security of your application and data, the JobFusion API incorpora
 
 If you have any questions or need assistance with the JobFusion API, feel free to contact the project maintainers:
 
-Name: Md. Billal Hossain
-Email: billal.webdev@gmail.com
-GitHub: https://github.com/billal-webdev
+* __Name__: Md. Billal Hossain
+* __Email__: billal.webdev@gmail.com
+* __GitHub__: https://github.com/billal-webdev
 
 We hope this README provides you with a solid understanding of the JobFusion API. Happy coding!
