@@ -67,9 +67,10 @@ async function run() {
 
     /*================== JWT Route ========================*/
     app.post("/set-cookie", (req, res) => {
-      const user = req.body;
+      try {
+        const user = req.body;
       const token = jwt.sign(user, process.env.JWT_SECRET_KEY, {
-        expiresIn: "1h",
+        expiresIn: 60,
       });
 
       const options = {
@@ -82,7 +83,30 @@ async function run() {
       res.cookie("token", token, options);
 
       res.status(200).send({success:true, message:'cookie set'})
+      } catch (error) {
+        res.status(500).send({error:true, message:"There was server side error"})
+      }
     });
+
+
+    app.post("/clear-cookie", (req, res)=>{
+      try {
+
+        const options = {
+          maxAge:0,
+          httpOnly: false,
+          secure: process.env.NODE_ENV === "production" ? true : false,
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+          path: "/",
+        };
+
+        res.cookie('token', '', options)
+        res.send({success:true, message:'Cookie cleared'})
+      } catch (error) {
+        console.log('Cookie clearing error', error)
+        res.status(500).send({error:true, message:"There was server side error"})
+      }
+    })
 
 
 
