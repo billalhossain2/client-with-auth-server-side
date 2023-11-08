@@ -70,7 +70,7 @@ async function run() {
       try {
         const user = req.body;
       const token = jwt.sign(user, process.env.JWT_SECRET_KEY, {
-        expiresIn: 60,
+        expiresIn: '1h',
       });
 
       const options = {
@@ -107,8 +107,6 @@ async function run() {
         res.status(500).send({error:true, message:"There was server side error"})
       }
     })
-
-
 
     //get all category jobs
     app.get("/category-jobs", async (req, res) => {
