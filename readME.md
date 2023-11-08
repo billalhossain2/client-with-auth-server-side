@@ -11,8 +11,6 @@ The JobFusion API is a versatile backend service for the JobFusion website, desi
 * Technologies Used
 * Usage
 * Security
-* Documentation
-* License
 * Contact
 
 
